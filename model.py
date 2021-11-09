@@ -4,7 +4,31 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-# classes
+class User(db.Model):
+    """A user."""
+
+    __tablename__ = "users"
+
+    user_id = db.Column(db.Integer,
+                        autoincrement = True,
+                        primary_key = True)
+    user_name = db.Column(db.String(20),
+                          nullable = False)
+    email = db.Column(String(30),
+                      unique = True)
+    password = db.Column(String(15),
+                         nullable = False)
+    
+    def get_id(self):
+        """Get user id."""
+
+        return str(self.user_id)
+
+    def __repr__(self):
+        
+        return f"<User user_id = {self.user_id}, email = {self.email}>"
+
+
 
 def connect_to_db(flask_app, db_uri="postgresql://plant-water", echo = True):
     flask_app.config['SQLALCHEMY_DATABAS_URI'] = db_uri
