@@ -3,6 +3,7 @@ from flask import (Flask,
                    request, session, 
                    redirect)
 from jinja2 import StrictUndefined
+from model import connect_to_db, db
 import requests
 import os
 
