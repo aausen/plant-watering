@@ -19,7 +19,7 @@ class User(db.Model):
     password = db.Column(String(15),
                          nullable = False)
     
-    def get_id(self):
+    def get_user_id(self):
         """Get user id."""
 
         return str(self.user_id)
@@ -41,7 +41,14 @@ class Plant(db.Model):
     water_schedule = db.Column(db.Integer)
     fertalize_schedule = db.Column(db.Integer)
 
+    def get_plant_id(self):
+        """Get plant id."""
 
+        return str(self.plant_id)
+
+    def __repr__(self):
+
+        return f"<Plant plant_id = {self.plant_id}, plant_name = {self.plant_name}>"
 
 def connect_to_db(flask_app, db_uri="postgresql://plant-water", echo = True):
     flask_app.config['SQLALCHEMY_DATABAS_URI'] = db_uri
