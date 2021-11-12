@@ -28,6 +28,19 @@ class User(db.Model):
         
         return f"<User user_id = {self.user_id}, email = {self.email}>"
 
+class Plant(db.Model):
+    """A plant."""
+
+    __tablename__ = "plants"
+
+    plant_id = db.Column(db.Integer, 
+                         autoincrement = True,
+                         primary_key = True)
+    plant_name = db.Column(db.String)
+    plant_img = db.Column(db.String)
+    water_schedule = db.Column(db.Integer)
+    fertalize_schedule = db.Column(db.Integer)
+
 
 
 def connect_to_db(flask_app, db_uri="postgresql://plant-water", echo = True):
