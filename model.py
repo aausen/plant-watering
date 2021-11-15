@@ -51,7 +51,7 @@ class Plant(db.Model):
         return f"<Plant plant_id = {self.plant_id}, plant_name = {self.plant_name}>"
 
 class User_plants(db.Model):
-    """Associate table between users and plants."""
+    """Association table between users and plants."""
 
     __tablename__ = "user_plants"
 
@@ -71,6 +71,11 @@ class User_plants(db.Model):
 
     user = db.relationship("User", backref="user_plants")
     plants = db.relationship("Plants", backref="user_plants")
+
+    def get_user_plant_id(self):
+        """Get user-plant id."""
+
+        return str(self.user_plant_id)
 
     def __repr__(self):
         return f"<User_plants user_plant_id={self.user_plant_id}, user_id={self.user_id}, plant_id={self.plant_id}>"
