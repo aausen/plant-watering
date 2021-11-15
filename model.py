@@ -50,6 +50,31 @@ class Plant(db.Model):
 
         return f"<Plant plant_id = {self.plant_id}, plant_name = {self.plant_name}>"
 
+class User_plants(db.Model):
+    """Associate table between users and plants."""
+
+    __tablename__ = "user_plants"
+
+    user_plant_id = db.Column(db.Integer,
+                              autoincrement = True,
+                              primary_key = True)
+    user_id = db.Column(db.Integer,
+                        db.ForeignKey("user.user_id"),
+                        nullable = False)
+    plant_id = db.Column(db.Integer,
+                         db.ForeignKey("plant.plant_id"),
+                         nullable = False)
+    last_watered = db.Column(db.DateTime)
+    water_schedule = db.Column(db.DateTime)
+    last_fertalize = db.Column(db.DateTime)
+    fertalize_schedule = db.Column(db.DateTime)
+
+    user = db.relationship("User", backref="user_plants")
+    plants = db.relationship("Plants", backref="user_plants")
+
+    def __repr__(self):
+        return f"<User_plants user_plant_id={self.user_plant_id}, user_id={self.user_id}, plant_id={self.plant_id}>"
+
 def connect_to_db(flask_app, db_uri="postgresql://plant-water", echo = True):
     flask_app.config['SQLALCHEMY_DATABAS_URI'] = db_uri
     flask_app.config['SQLALCHEMY_ECHO'] = echo
