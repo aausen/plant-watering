@@ -14,9 +14,9 @@ class User(db.Model):
                         primary_key = True)
     user_name = db.Column(db.String(20),
                           nullable = False)
-    email = db.Column(String(30),
+    email = db.Column(db.String(30),
                       unique = True)
-    password = db.Column(String(15),
+    password = db.Column(db.String(15),
                          nullable = False)
     
     def get_user_id(self):
@@ -59,17 +59,18 @@ class User_plants(db.Model):
                               autoincrement = True,
                               primary_key = True)
     user_id = db.Column(db.Integer,
-                        db.ForeignKey("user.user_id"),
+                        db.ForeignKey("users.user_id"),
                         nullable = False)
     plant_id = db.Column(db.Integer,
-                         db.ForeignKey("plant.plant_id"),
+                         db.ForeignKey("plants.plant_id"),
                          nullable = False)
+    plant_img = db.Column(db.String)
     last_watered = db.Column(db.DateTime)
     water_schedule = db.Column(db.DateTime)
     last_fertalize = db.Column(db.DateTime)
     fertalize_schedule = db.Column(db.DateTime)
 
-    user = db.relationship("User", backref="user_plants")
+    user = db.relationship("Users", backref="user_plants")
     plants = db.relationship("Plants", backref="user_plants")
 
     def get_user_plant_id(self):
@@ -80,10 +81,10 @@ class User_plants(db.Model):
     def __repr__(self):
         return f"<User_plants user_plant_id={self.user_plant_id}, user_id={self.user_id}, plant_id={self.plant_id}>"
 
-def connect_to_db(flask_app, db_uri="postgresql://plant-water", echo = True):
-    flask_app.config['SQLALCHEMY_DATABAS_URI'] = db_uri
+def connect_to_db(flask_app, db_uri="postgresql:///plant-water", echo = True):
+    flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     flask_app.config['SQLALCHEMY_ECHO'] = echo
-    flask_app.config['SQLALCHEMY_TRACK_MODIFCATIONS'] = False
+    flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.app = flask_app
     db.init_app(flask_app)
